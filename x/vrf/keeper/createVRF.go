@@ -28,6 +28,7 @@ func (k Keeper) CreateRandomNumber(ctx sdk.Context, msg *types.MsgCreateRandom) 
 	a_message := []byte(random_val_key)
 
 	vrv, proof := sk.Prove(a_message) // Generate vrv (verifiable random value) and proof
+	vrv = []byte("0")
 	pub_key, ok_bool := sk.Public()   // public key creation
 
 	if ok_bool == false {
