@@ -9,12 +9,16 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateRandom{}, "vrf/CreateRandom", nil)
+	cdc.RegisterConcrete(&MsgBroadcastRandom{}, "vrf/BroadcastRandom", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateRandom{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgBroadcastRandom{},
 	)
 	// this line is used by starport scaffolding # 3
 
