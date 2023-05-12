@@ -11,7 +11,10 @@ service Msg {
 message MsgCreateRandom {
   string creator = 1;
   uint64 multiplier = 2;
-  // int32 count = 3; // -1 will be last (recently created) and 0 is first
+  string vrv = 3;
+  string proof = 4;
+  string pubkey = 5;
+  // int32 count = 6; // -1 will be last (recently created) and 0 is first
 }
 
 message MsgCreateRandomResponse { uint64 id = 1; }
