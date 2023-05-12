@@ -30,6 +30,12 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type MsgCreateRandom struct {
 	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Multiplier uint64 `protobuf:"varint,2,opt,name=multiplier,proto3" json:"multiplier,omitempty"`
+        Vrv                  string   `protobuf:"bytes,4,opt,name=vrv,proto3" json:"vrv,omitempty"`
+        Proof                string   `protobuf:"bytes,5,opt,name=proof,proto3" json:"proof,omitempty"`
+        Pubkey               string   `protobuf:"bytes,6,opt,name=pubkey,proto3" json:"pubkey,omitempty"`
+        XXX_NoUnkeyedLiteral struct{} `json:"-"`
+        XXX_unrecognized     []byte   `json:"-"`
+        XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *MsgCreateRandom) Reset()         { *m = MsgCreateRandom{} }

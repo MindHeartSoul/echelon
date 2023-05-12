@@ -19,21 +19,30 @@ func (k Keeper) CreateRandomNumber(ctx sdk.Context, msg *types.MsgCreateRandom) 
 		user_key_count = userval.Count + 1
 	}
 
-	sk, err := vrf.GenerateKey(nil)
-	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Secret Key is not generated")
-	}
+//	sk, err := vrf.GenerateKey(nil)
+//	if err != nil {
+//		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Secret Key is not generated")
+//	}
 
-	random_val_key := msg.Creator + "," + strconv.FormatInt(user_key_count, 10)
-	a_message := []byte(random_val_key)
+	random_val_key := msg.Creator //+ "," + strconv.FormatInt(user_key_count, 10)
+	message := random_val_key + "," + strconv.FormatInt(user_key_count, 10)
+//	a_message := []byte(random_val_key)
 
-	vrv, proof := sk.Prove(a_message) // Generate vrv (verifiable random value) and proof
-	pub_key, ok_bool := sk.Public()   // public key creation
+//	vrv, proof := sk.Prove(a_message) // Generate vrv (verifiable random value) and proof
+//	pub_key, ok_bool := sk.Public()   // public key creation
 
-	if ok_bool == false {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Public Key is not generated")
-	}
+//	if ok_bool == false {
+//		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Public Key is not generated")
+//	}
 
+	// get vrv + proof + pubkey from msg
+	vrv := []byte(msg.Vrv)
+	proof := []byte(msg.Proof)
+	pub_key := []byte(msg.Pubkey)
+
+	// TODO add verify proof
+
+	// compute additonal vrv info
 	var max_val_uint64 uint64 = 18446744073709551615
 	parse_vrv_to_uint64 := binary.BigEndian.Uint64(vrv)
 	var float_vrv float64 = float64(parse_vrv_to_uint64) / float64(max_val_uint64)
@@ -47,7 +56,8 @@ func (k Keeper) CreateRandomNumber(ctx sdk.Context, msg *types.MsgCreateRandom) 
 		Multiplier:msg.Multiplier,
 		Proof:     hex.EncodeToString(proof),
 		Pubk:      hex.EncodeToString(pub_key),
-		Message:   random_val_key,
+//		Message:   random_val_key,
+		Message:   message,
 		Parsedvrv: binary.BigEndian.Uint64(vrv),
 		Floatvrv:  float_vrv,
 		Finalvrv:  uint64(final_vrv),
