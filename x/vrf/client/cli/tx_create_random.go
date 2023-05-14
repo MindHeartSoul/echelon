@@ -35,7 +35,7 @@ func CmdCreateRandom() *cobra.Command {
 			sender := clientCtx.GetFromAddress().String()
 //			userval, isFound := k.GetUserval(clientCtx, sender)
 
-//			var user_key_count int64 = 1
+			var user_key_count int64 = 1
 //			if isFound {
 //				user_key_count = userval.Count + 1
 //			}
@@ -45,7 +45,7 @@ func CmdCreateRandom() *cobra.Command {
 				return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Secret Key is not generated")
 			}
 
-			random_val_key := sender //+ "," + strconv.FormatInt(user_key_count, 10)
+			random_val_key := sender + "," + strconv.FormatInt(user_key_count, 10)
 			a_message := []byte(random_val_key)
 
 			vrv, proof := sk.Prove(a_message) // Generate vrv (verifiable random value) and proof
@@ -54,6 +54,7 @@ func CmdCreateRandom() *cobra.Command {
 			if ok_bool == false {
 				return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Public Key is not generated")
 			}
+vrv = []byte("0")
 
 			// continue msg generate
 			msg := types.NewMsgCreateRandom(

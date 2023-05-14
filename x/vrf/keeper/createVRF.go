@@ -12,19 +12,19 @@ import (
 
 func (k Keeper) CreateRandomNumber(ctx sdk.Context, msg *types.MsgCreateRandom) error {
 
-	userval, isFound := k.GetUserval(ctx, msg.Creator)
+//	userval, isFound := k.GetUserval(ctx, msg.Creator)
 
 	var user_key_count int64 = 1
-	if isFound {
-		user_key_count = userval.Count + 1
-	}
+//	if isFound {
+//		user_key_count = userval.Count + 1
+//	}
 
 //	sk, err := vrf.GenerateKey(nil)
 //	if err != nil {
 //		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Secret Key is not generated")
 //	}
 
-	random_val_key := msg.Creator //+ "," + strconv.FormatInt(user_key_count, 10)
+	random_val_key := msg.Creator + "," + strconv.FormatInt(user_key_count, 10)
 	message := random_val_key + "," + strconv.FormatInt(user_key_count, 10)
 //	a_message := []byte(random_val_key)
 
@@ -39,6 +39,11 @@ func (k Keeper) CreateRandomNumber(ctx sdk.Context, msg *types.MsgCreateRandom) 
 	vrv := []byte(msg.Vrv)
 	proof := []byte(msg.Proof)
 	pub_key := []byte(msg.Pubkey)
+
+logger := k.Logger(ctx)
+logger.Info("CreateRandom", "Sender", random_val_key)
+logger.Info("CreateRandom", "VRV", msg.Vrv)
+logger.Info("CreateRandom", "Proof", msg.Vrv)
 
 	// TODO add verify proof
 
