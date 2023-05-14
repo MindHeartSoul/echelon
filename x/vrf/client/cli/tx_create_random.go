@@ -54,7 +54,7 @@ func CmdCreateRandom() *cobra.Command {
 			if ok_bool == false {
 				return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Public Key is not generated")
 			}
-vrv = []byte("0")
+//vrv = []byte("0")
 
 			// continue msg generate
 			msg := types.NewMsgCreateRandom(
